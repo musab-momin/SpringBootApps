@@ -1,6 +1,7 @@
 package com.restfull.first_rest.controllers;
 
 import com.restfull.first_rest.dtos.OrderDto;
+import com.restfull.first_rest.dtos.StudentDto;
 import com.restfull.first_rest.entities.Student;
 import com.restfull.first_rest.services.MainService;
 import org.springframework.data.repository.query.Param;
@@ -39,7 +40,7 @@ public class MainController {
     }
 
     @PostMapping("/v1/save-student")
-    public Student saveStudent(@RequestBody Student studentDto) {
+    public StudentDto saveStudent(@RequestBody Student studentDto) {
         return mainService.saveStudent(studentDto);
     }
 
@@ -50,7 +51,11 @@ public class MainController {
 
     @GetMapping("/v1/get-student-by-name/{student-name}")
     public List<Student> findAllUserByFirstName(@PathVariable("student-name") String studentName) {
-        System.out.println("~@@ debug: " + studentName);
         return  mainService.getAllStudentByFirstName(studentName);
+    }
+
+    @GetMapping("/v1/get-student")
+    public StudentDto findAStudent(@RequestParam("email") String email) {
+        return mainService.findAStudent(email);
     }
 }

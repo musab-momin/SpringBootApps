@@ -1,0 +1,53 @@
+What is SpringBoot ?
+> SpringBoot is a sub-part of spring framework. Which is a java based framework for building enterprise
+  application. It supports building native, web and standalone application.
+> For building Rest or Web application we can use SpringBoot.
+> SpringBoot is powerful framework, as it is a Framework it has all the tools which is required in the world
+  of web application.
+> SpringBoot is popularly known for its dependency injection architecture.
+> SpringBoot has its own object manager known as Inversion of Control (IoC) principle. Dependency injection (DI)
+  is a specialized form of IoC, whereby objects define their dependencies (that is, the other objects they
+  work with) only through constructor arguments. The IoC container then injects those dependencies when it
+  creates the bean.
+
+What is Bean?
+> In simple words Bean is nothing but simple object of any java class.
+> As SpringBoot will have dependency manager it does not automatically create the object of all the classes
+  inside your application. You have to mark a class with some annotation so that SpringBoot will create there
+  objects and inject them to other classes if they need it.
+> We can use @Component, @Service annotation for creating bean of our class.
+> But if you have object of your class you can annotate that object with @Bean in that case also SpringBoot will
+  save your object and inject it on time.
+  @Bean
+  	public MyFirstClass getFistClass() {
+  		return new MyFirstClass();
+  	}
+> If you have multiple Beans we have to use @Qualify("BeanName") annotation and similarly on @Bean("BeanName").
+
+What is Profile?
+> Consider profile as different environment for SpringBoot application.
+> We have special file called application.properties which can hold properties for your application like
+  keys, constants or etc.
+> We can create multiple application properties file like one file for dev application.properties.dev it will
+  have some different keys and constant and production keys and constant will be inside application.properties.
+> We have one annotation called @Profile("env_name"), We can set this on Beans in other words If you want to
+  make some Bean only available on specific environments then use @Profile annotation and provide environment
+  name. So SpringBoot will use those Beans only if that specific environment is active.
+
+
+How Repository interface works?
+> When Spring Boot starts up, it scans your codebase and looks for all classes and interfaces annotated or configured 
+  with @Repository (or anything extending JpaRepository like your StudentRepository). Then, it automatically generates 
+  a dynamic implementation of your repository interface at runtime.
+> This means Spring creates a concrete class behind the scenes that implements your StudentRepository interface.
+> That class has actual implementations of methods like findAll(), findById(), and any custom queries you define 
+  (findAllByFirstNameContaining).
+> You don’t see this concrete class in your codebase—it’s created dynamically using Spring’s proxy mechanism. So when 
+  you autowire the StudentRepository into your MainService, Spring injects this generated class instance for you.
+> JpaRepository is also an interface that extends multiple other interfaces like CrudRepository and 
+  PagingAndSortingRepository
+> This means JpaRepository inherits many useful methods such as: findAll(), findById(), save(T entity)
+> These methods are defined in the JpaRepository interface, but the actual implementation is provided at runtime by 
+  Spring Data JPA using something called SimpleJpaRepository.
+
+
