@@ -4,10 +4,17 @@ import com.restfull.first_rest.dtos.OrderDto;
 import com.restfull.first_rest.dtos.StudentDto;
 import com.restfull.first_rest.entities.Student;
 import com.restfull.first_rest.services.MainService;
+import jakarta.validation.Valid;
 import org.springframework.data.repository.query.Param;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.validation.FieldError;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 public class MainController {
@@ -40,7 +47,7 @@ public class MainController {
     }
 
     @PostMapping("/v1/save-student")
-    public StudentDto saveStudent(@RequestBody Student studentDto) {
+    public StudentDto saveStudent(@Valid @RequestBody Student studentDto) {
         return mainService.saveStudent(studentDto);
     }
 
@@ -57,5 +64,19 @@ public class MainController {
     @GetMapping("/v1/get-student")
     public StudentDto findAStudent(@RequestParam("email") String email) {
         return mainService.findAStudent(email);
+    }
+
+    @ExceptionHandler
+    public ResponseEntity<?> handleMethodArgumentNotValidException(
+            MethodArgumentNotValidException exp
+    ) {
+        Map<String, String> errors = new HashMap<String, String>();
+        exp.getBindingResult().getAllErrors()
+                .forEach(err -> {
+                    String fieldName = ((FieldError) err).getField();
+                    String errorMessage = err.getDefaultMessage();
+                    errors.put(fieldName, errorMessage);
+                });
+        return new ResponseEntity<>(errors, HttpStatus.BAD_REQUEST);
     }
 }

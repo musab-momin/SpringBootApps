@@ -12,11 +12,11 @@ public class Student {
     private Integer id;
 
     @Column(length = 50)
-    @NotEmpty
+    @NotEmpty(message = "First name should be plain string and must not be empty")
     private String firstName;
 
     @Column(length = 50)
-    @NotEmpty
+    @NotEmpty(message = "Last name should be plain string and must not be empty")
     private String lastName;
 
     @Column(length = 100, unique = true)
